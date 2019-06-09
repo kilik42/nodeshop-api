@@ -27,6 +27,21 @@ app.post('/product', function(request, response){
 });
 
 
+app.get('/product', function(request, response){
+    Product.find({}, function(err, products){
+        if(err){
+          response.status(500).send({error: "could not fetch products"});
+        }
+        else{response.send(products);
+        }
+    });
+});
+
+
+
+
+
+
 app.listen(3000, function(){
   console.log("swag shop api running on port 3000...");
 })
