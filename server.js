@@ -37,7 +37,26 @@ app.get('/product', function(request, response){
     });
 });
 
+app.get('/wishlist', function(request, response){
+  WishList.find({}, function(err, wishLists){
+    response.send(wishLists);
+  });
+});
 
+
+app.post('/wishlist', function(request , response){
+   var wishList = new WishList();
+   wishList.title = request.body.title;
+
+   wishList.save(function(err, newWishList){
+     if(err){
+       response.status(500).send({error: "could not create wishlist"});
+
+     }else{
+       response.status(200).send(newWishList);
+     }
+   }
+});
 
 
 
