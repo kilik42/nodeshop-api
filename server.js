@@ -58,7 +58,21 @@ app.post('/wishlist', function(request , response){
    }
 });
 
-
+app.put('wishlist/product/add', function(request, response){
+    Product.findOne({_id: request.body.productId}, function(err, product){
+      if(err){
+        response.status(500).send({"could not add item to wishlist"});
+      }else{
+        WishList.update({_id: request.body.wishListId}, {$addToSet: {products: product._id}}, function(err, wishList){
+              if(err){
+                response.status(500).send({"could not add item to wishlist"});
+              }else{
+                response.send(wishList);
+              }
+        });
+      }
+    })
+});
 
 
 app.listen(3000, function(){
